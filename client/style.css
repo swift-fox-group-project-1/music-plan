@@ -1,0 +1,84 @@
+.container {
+  width: 50%;
+}
+
+.container > h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: 5em;
+}
+
+.container > h3 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 5em;
+}
+
+.login {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 100%;
+  background-color: #fcfcfc;
+  background-image: url("https://images.pexels.com/photos/2183361/pexels-photo-2183361.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  font-family: 'Playfair Display', serif;
+}
+
+.form {
+  padding-top: 9%;
+  padding-bottom: 7%;
+  padding-left: 8%;
+  padding-right: 8%;
+  height: 100%;
+  background-color: #fcfcfc;
+  z-index: 1;
+
+}
+
+.form2 {
+  margin-top: 400px;
+  padding: 10em;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  color: #fefefe;
+  z-index: 1;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

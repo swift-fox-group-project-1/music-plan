@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="google-signin-client_id" content="1002384670585-e0v898fh30t40l8bk1d0e98bstf07aj7.apps.googleusercontent.com">
+    <title></title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+
+    <static class="login">
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-6 form2">
+
+            <h1>Create your to do list with ease.</h1>
+            <p>Start using our services by login with your account.</p>
+          </div>
+          <div class="col form">
+            <h3 class="font">Welcome to Todo App!</h3>
+            <form class="" action="#" method="post" id="form">
+              <h1 class="h3 mb-3 font-weight-normal font">Please sign in</h1>
+              <label for="inputEmail" class="font">Email:</label>
+              <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus><br>
+              <label for="inputPassword" class="font">Password:</label>
+              <input type="password" id="password" class="form-control" placeholder="Password" required>
+              <div class="checkbox mb-3"><br>
+                <label style="font-family: 'Poppins', sans-serif;">
+                  <input type="checkbox" value="remember-me"> Remember me
+                </label>
+              </div>
+              <button type="submit" name="button" class="btn btn-lg btn-primary btn-block font rounded-pill shadow p-3 mb-5 rounded" data-toggle="button" aria-pressed="false">Login</button><br>
+              <div class="g-signin2" data-width="400" data-height="50" data-longtitle="true" data-theme="dark" data-onsuccess="onSignIn"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      </div>
+    </static>
+
+    <section id="dashboard">
+        <div class="navigation shadow-sm p-3 mb-5 bg-white rounded">
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">My Todos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="create-todos">Create Todos</a>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link btn btn-primary shadow" type="button" name="button">Log out</button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="container">
+          <div class="header">
+            <h2 class="font">Welcome, this is your dashboard!</h2>
+            <p>This is where you can see, create, or update your to do list</p>
+          </div>
+
+        <div class="todo rounded-lg shadow p-3 mb-5 bg-white rounded">
+          <div class="row row-cols-1 row-cols-md-3">
+            <div class="col mb-4">
+              <div class="card">
+                <img src="https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col mb-4">
+              <div class="card">
+                <img src="https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col mb-4">
+              <div class="card">
+                <img src="https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col mb-4">
+              <div class="card">
+                <img src="https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+  </body>
+</html>
