@@ -1,3 +1,7 @@
+h3 {
+  font-size: 3vw;
+}
+
 .container {
   width: 50%;
 }
@@ -44,8 +48,12 @@
   align-items: center;
   width: 50%;
   height: 100%;
-  color: #fefefe;
+  color: #202020;
   z-index: 1;
+}
+
+.bg-text-yellow {
+  background-color: #F2E205;
 }
 
 .form-signin {
@@ -81,4 +89,8 @@
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.gap {
+  padding-bottom: 20px;
 }
