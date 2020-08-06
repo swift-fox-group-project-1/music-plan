@@ -1,6 +1,7 @@
 const {User} = require('../models')
 const {decoder} = require('../helpers/bcrypt')
 const {generateToken} = require('../helpers/jwt')
+const jwt = require('jsonwebtoken');
 
 class UserController {
     static register(req, res, next) {
@@ -55,6 +56,42 @@ class UserController {
             .catch(err=>{
                 next(err)
             })
+    }
+
+    static async googleLogin(req, res, next)
+    {
+      const {OAuth2Client} = require('google-auth-library');
+      const client = new OAuth2Client(process.env.CLIENT_ID);
+      async function verify() {
+        const ticket = await client.verifyIdToken({
+          idToken: req.body.access_token,
+          audience: process.env.CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+          // Or, if multiple clients access the backend:
+          //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        });
+        const payload = ticket.getPayload();
+        const userid = payload['sub'];
+        // If request specified a G Suite domain:
+        // const domain = payload['hd'];
+        try
+        {
+          const data = await User.findOne({where: {email: payload.email}});
+          if (!data)
+          {
+            const data = await User.create({username: payload.name, email:payload.email, password:"wakwaww"})
+          }
+
+          const access_token = jwt.sign({username: data.username, email: data.email}, process.env.JWT_SECRET_KEY);
+          return res.status(200).json({access_token})
+        }
+        catch (err)
+        {
+          console.log(err);
+        }
+      }
+
+      verify().catch(console.error);
+
     }
 }
 
