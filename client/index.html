@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="google-signin-client_id" content="975105577426-4eg8cfa6g2norg62edtfajtce9eiomvj.apps.googleusercontent.com">
-    <title></title>
+    <title>Music - Planner App</title>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap" rel="stylesheet">
   </head>
   <body>
     <!-- login page -->
-    <div class="loginpage">
+    <section class="loginpage vh-100">
       <div class="container-fluid">
         <div class="row">
           <div class="col-6 form2">
@@ -22,29 +22,30 @@
               <p>Start using our services by login with your account.</p>
             </div> -->
           </div>
-          <div class="col form shadow-lg">
+          <div class="col form shadow-lg vh-100">
             <h3 class="font">Welcome to Todo App!</h3>
-            <form class="" action="#" method="post" id="form">
+            <form class="font-2" action="#" method="post" id="form">
               <h1 class="h3 mb-3 font-weight-normal font">Please sign in</h1>
               <label for="inputEmail" class="font">Email:</label>
-              <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus><br>
+              <input type="email" id="email-login" class="form-control" placeholder="Email address" required autofocus><br>
               <label for="inputPassword" class="font">Password:</label>
-              <input type="password" id="password" class="form-control" placeholder="Password" required>
+              <input type="password" id="password-login" class="form-control" placeholder="Password" required>
               <div class="checkbox mb-3"><br>
                 <label style="font-family: 'Poppins', sans-serif;">
                   <input type="checkbox" value="remember-me"> Remember me
                 </label>
               </div>
-              <button type="submit" name="button" class="btn btn-lg btn-primary btn-block font rounded-pill shadow p-3 mb-5 rounded" data-toggle="button" aria-pressed="false">Login</button><br>
+              <button type="submit" name="button" class="btn btn-lg btn-primary btn-block font rounded-pill shadow p-3 mb-5 rounded" data-toggle="button" aria-pressed="false" onclick="login(event)">Login</button><br>
+              <a href="" id="register" onclick="toRegister(event)">Register here</a>
               <div class="g-signin2" data-width="400" data-height="50" data-longtitle="true" data-theme="dark" data-onsuccess="onSignIn"></div>
             </form>
           </div>
           </div>
         </div>
-      </div>
-    </div>
+    </section>
+
     <!-- register page -->
-    <div class="registerpage">
+    <section class="registerpage vh-100">
       <div class="container-fluid">
         <div class="row">
           <div class="col-6 form2">
@@ -53,30 +54,33 @@
               <p>Start using our services by login with your account.</p>
             </div> -->
           </div>
-          <div class="col form shadow-lg">
+          <div class="col form shadow-lg vh-100">
             <h3 class="font">Welcome to Todo App!</h3>
-            <form class="" action="#" method="post" id="form">
+            <form class="font-2" action="#" method="post" id="form" onsubmit="registerPost(event)">
               <h1 class="h3 mb-3 font-weight-normal font">Register Here</h1>
+              <label for="inputEmail" class="font">Username:</label>
+              <input type="text" id="username-register" class="form-control" placeholder="Enter your username" required autofocus><br>
               <label for="inputEmail" class="font">Email:</label>
-              <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus><br>
+              <input type="email" id="email-register" class="form-control" placeholder="Email address" required autofocus><br>
               <label for="inputPassword" class="font">Password:</label>
-              <input type="password" id="password" class="form-control" placeholder="Password" required>
+              <input type="password" id="password-register" class="form-control" placeholder="Password" required>
               <div class="checkbox mb-3"><br>
                 <label style="font-family: 'Poppins', sans-serif;">
                   <input type="checkbox" value="remember-me"> Remember me
                 </label>
               </div>
-              <button type="submit" name="button" class="btn btn-lg btn-primary btn-block font rounded-pill shadow p-3 mb-5 rounded" data-toggle="button" aria-pressed="false">Login</button><br>
+              <button type="submit" name="button" class="btn btn-lg btn-primary btn-block font rounded-pill shadow p-3 mb-5 rounded" data-toggle="button" aria-pressed="false">Register</button>
+              <button type="button" name="button" class="btn btn-lg btn-danger btn-block font rounded-pill shadow p-3 mb-5 rounded" data-toggle="button" aria-pressed="false" onclick="cancelRegister(event)">Cancel</button><br>
               <div class="g-signin2" data-width="400" data-height="50" data-longtitle="true" data-theme="dark" data-onsuccess="onSignIn"></div>
             </form>
           </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- dashboard -->
-    <section id="dashboard">
+    <section id="dashboard" class="vh-100 font-2">
         <div class="navigation shadow-sm p-3 mb-5 bg-white rounded">
           <ul class="nav justify-content-end">
             <li class="nav-item">
@@ -108,23 +112,16 @@
           </div>
         </div>
 
-        <div class="container">
-          <div class="todo rounded-lg shadow p-3 mb-5 bg-white rounded">
-            <div  id = "content" class="row row-cols-1 row-cols-md-3"></div>
+        <div class="container-md">
+          <div class="todo rounded-lg shadow p-3 mb-5 bg-white rounded overflow-auto vh-100">
+            <div  id = "content" class="row row-cols-1 row-cols-md-3 todo"></div>
           </div>
         </div>
 
-    <!-- </section> 
-    <div class="container">
-      <div id="content"></div>
-    </div>
-    <section> -->
 
     </section>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-
-    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>

@@ -12,7 +12,11 @@ class UserController {
         }
         User.create(user)
             .then(data=>{
-                res.status(201).json({message: 'successfully registered', data})
+              const access_token = generateToken({
+                  username: data.username,
+                  email: data.email
+              })
+              res.status(201).json({message: 'successfully registered', data, access_token})
             })
             .catch(err=>{
                 next(err)
@@ -33,7 +37,7 @@ class UserController {
                             username: data.username,
                             email: data.email
                         })
-                        res.status(200).json({access_token, email: data.email})
+                        res.status(200).json({access_token, email: data.email, username: data.username})
                     } else {
                         console.log('di sini password')
                         throw {
