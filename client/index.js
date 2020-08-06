@@ -40,12 +40,69 @@ function logout (event) {
 function homepage() {
   $('.loginpage').hide()
   $('.registerpage').hide()
+  $("#user").text(`Welcome ${localStorage.username}`);
+  $('#dashboard').show();
   fetchData()
 }
 
 function home(event) {
   event.preventDefault()
   fetchData()
+}
+
+function login(event) {
+  event.preventDefault();
+  $.ajax(`${endpoint}/login`, {
+    method: "POST",
+    data: {
+      email: $("#email-login").val(),
+      password: $("#password-login").val()
+    }
+  })
+  .done(data => {
+    localStorage.access_token = data.access_token;
+    localStorage.email = data.email;
+    localStorage.username = data.username;
+
+    auth();
+  })
+  .fail(err => console.log(err))
+  .always(() => console.log('login'));
+}
+
+function toRegister(event) {
+  event.preventDefault();
+  registerPage();
+}
+
+function cancelRegister(event) {
+  event.preventDefault();
+  loginPage();
+}
+
+function registerPost(event) {
+  event.preventDefault();
+
+  console.log('testing registerpost')
+  console.log($("#username-register").val())
+  $.ajax(`${endpoint}/register`, {
+    method: "POST",
+    data: {
+      username: $("#username-register").val(),
+      email: $("#email-register").val(),
+      password: $("#password-register").val()
+    }
+  })
+  .done(user => {
+    console.log(user, 'done after ajax register');
+    localStorage.access_token = user.access_token;
+    localStorage.email = data.email;
+    localStorage.username = data.username;
+
+    auth();
+  })
+  .fail(err => console.log(err))
+  .always(() => console.log('registering user'));
 }
 
 function onSignIn(googleUser) {
@@ -110,7 +167,7 @@ function fetchData() {
       .catch((err) => {
           console.log(err);
       });
-} 
+}
 
 function search(event) {
   event.preventDefault()

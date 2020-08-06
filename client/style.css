@@ -2,6 +2,10 @@ h3 {
   font-size: 3vw;
 }
 
+.font-2 {
+  font-family: 'Manrope', serif;
+}
+
 .container {
   width: 50%;
 }
@@ -9,15 +13,33 @@ h3 {
 .container > h1 {
   font-family: 'Playfair Display', serif;
   font-weight: 500;
-  font-size: 5em;
+  font-size: 5vw;
 }
 
 .container > h3 {
   font-family: 'Manrope', sans-serif;
-  font-size: 5em;
+  font-size: 5vw;
 }
 
-.login {
+.text-header {
+  font-size: 2vw;
+}
+
+.loginpage {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 100%;
+  background-color: #fcfcfc;
+  background-image: url("https://images.pexels.com/photos/2183361/pexels-photo-2183361.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  font-family: 'Playfair Display', serif;
+}
+
+.registerpage {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -44,7 +66,6 @@ h3 {
 
 .form2 {
   margin-top: 400px;
-  padding: 10em;
   align-items: center;
   width: 50%;
   height: 100%;
@@ -54,6 +75,7 @@ h3 {
 
 .bg-text-yellow {
   background-color: #F2E205;
+  font-size: 1vw;
 }
 
 .form-signin {
@@ -73,7 +95,7 @@ h3 {
   box-sizing: border-box;
   height: auto;
   padding: 10px;
-  font-size: 16px;
+  font-size: 1vw;
 }
 .form-signin .form-control:focus {
   z-index: 2;
@@ -93,4 +115,8 @@ h3 {
 
 .gap {
   padding-bottom: 20px;
+}
+
+.todo {
+  padding: 2vw;
 }
