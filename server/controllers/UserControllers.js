@@ -10,7 +10,6 @@ class UserController {
             email: req.body.email,
             password: req.body.password
         }
-
         User.create(user)
             .then(data=>{
                 res.status(201).json({message: 'successfully registered', data})
@@ -34,8 +33,7 @@ class UserController {
                             username: data.username,
                             email: data.email
                         })
-
-                        res.status(200).json({access_token})
+                        res.status(200).json({access_token, email: data.email})
                     } else {
                         console.log('di sini password')
                         throw {

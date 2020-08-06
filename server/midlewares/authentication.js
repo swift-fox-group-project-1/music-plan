@@ -7,7 +7,7 @@ function authentication (req, res, next) {
             let verify = verifyToken(req.headers.access_token)
             User.findByPk(verify.id)
                 .then(user => {
-                    req.UserId = user.id
+                    // req.UserId = user.id
                     next()
                 })
                 .catch (next)

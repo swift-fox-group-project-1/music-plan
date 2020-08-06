@@ -23,7 +23,7 @@ class MusikController {
     static searchEvent(req, res) {
         const keyword = req.params.keyword;
         // console.log(req.params);
-        console.log(keyword + `ini server`);
+        console.log(keyword + ` ini server`);
 
         axios({
             method: `get`,
