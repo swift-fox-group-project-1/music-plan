@@ -13,6 +13,7 @@ class UserController {
         User.create(user)
             .then(data=>{
               const access_token = generateToken({
+                  id: data.id,
                   username: data.username,
                   email: data.email
               })
@@ -31,13 +32,15 @@ class UserController {
         })
             .then(data=>{
                 if (data) {
+                  console.log(data);
                     const verified = decoder(req.body.password, data.password)
                     if (verified) {
                         const access_token = generateToken({
+                            id: data.id,
                             username: data.username,
                             email: data.email
                         })
-                        res.status(200).json({access_token, email: data.email, username: data.username})
+                        res.status(200).json({access_token, id: data.id, email: data.email, username: data.username})
                     } else {
                         console.log('di sini password')
                         throw {
@@ -83,8 +86,8 @@ class UserController {
             const data = await User.create({username: payload.name, email:payload.email, password:"wakwaww"})
           }
 
-          const access_token = jwt.sign({username: data.username, email: data.email}, process.env.JWT_SECRET_KEY);
-          return res.status(200).json({access_token})
+          const access_token = jwt.sign({id: data.id, username: data.username, email: data.email}, process.env.JWT_SECRET_KEY);
+          return res.status(200).json({access_token, username: data.username, email: data.email})
         }
         catch (err)
         {
