@@ -1,3 +1,20 @@
+## Music Plan 
+    Music plan - a portofolio Group project for Hacktiv8 Phase 2. This app using ticketmaster API, QRCode APi, and mailgun API. has RESTful endpoint for User and Wishlist Operation Used Technology: 
+        * Express Js
+        * Sequelize
+        * Postgres
+        * Json Web Token
+        * Bcrypt JSON Formated Response
+    On this App you can book some event what do you want, and get notified on email, using technology :
+        * mailgun (limited recipients)
+### Global Response
+_Response (500)_
+```
+    {
+        "message": "<internal server error>"
+    }
+```
+
 --ENDPOINTS--
 ## POST /register
 ## POST /login
@@ -7,12 +24,15 @@
 ## GET /wishlist
 ## POST /wishlist
 ## DELETE /wishlist/:name
--------------## POST /register--request body
+-------------
+
+## POST /register--request body
 {
     "username": string,
     "email": string,
     "password": string
-}--response(201)
+}
+--response(201)
 ```json
 {
     "message": "successfully registered",
@@ -26,19 +46,34 @@
     },
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlzbWF0Y2hhbiIsImVtYWlsIjoib3RvcmlnYW1pQGdtYWlsLmNvbSIsImlhdCI6MTU5Njc1MTQ5NX0.PTZ5HhEn2v5aap7nqH9JosU3Z2Qaop9Ib_NX_W2h8Co"
 }
-```## POST /login--response(200)
+```
+
+--Response(400)
+```
+    {message: "<email already registered>"}
+```
+## POST /login--response(200)
 ```json
 {
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlzbWF0dWxsYWgiLCJlbWFpbCI6Im90b3JpZ2FtaUBnbWFpbC5jb20iLCJpYXQiOjE1OTY3NzE1MTh9.UqT9RlAKZolYC8ypP98ZvsMd88y219mZEQxZJgzPSbQ",
     "email": "otorigami@gmail.com",
     "username": "ismatullah"
 }
-```## POST /googleLogin--response(200)
+```
+## POST /googleLogin
+--response(200)
 ```json
 {
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlzbWF0dWxsYWgiLCJlbWFpbCI6Im90b3JpZ2FtaUBnbWFpbC5jb20iLCJpYXQiOjE1OTY3NzE1MTh9.UqT9RlAKZolYC8ypP98ZvsMd88y219mZEQxZJgzPSbQ"
 }
-```## GET /get-events--request headers
+```
+--response(404)
+```
+    {
+        message: "<'incorrect email or password'>"
+    }
+```
+## GET /get-events--request headers
 access_token--response(200)
 ```json
 {
@@ -57,7 +92,8 @@ access_token--response(200)
         }
     ]
 }
-```## GET /get-events/search/:keyword--request headers
+```
+## GET /get-events/search/:keyword--request headers
 access_token--response(200)
 ```json
 {
@@ -76,7 +112,8 @@ access_token--response(200)
         }
     ]
 }
-```## GET /wishlist--request headers
+```
+## GET /wishlist--request headers
 access_token--response(200)
 ```json
 [
@@ -103,7 +140,8 @@ access_token--response(200)
         "createdAt": "2020-08-06T22:04:55.538Z"
     }
 ]
-```## POST /wishlist--request headers
+```
+## POST /wishlist--request headers
 access_token--request body
 {
     "name": string,
@@ -138,6 +176,7 @@ access_token--request body
         "createdAt": "2020-08-06T22:04:55.538Z"
     }
 ]
-```## DELETE /wishlist/:name--request headers
+```
+## DELETE /wishlist/:name--request headers
 access_token--request params
 name--response(200)
