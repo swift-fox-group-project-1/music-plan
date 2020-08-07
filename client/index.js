@@ -135,7 +135,7 @@ function fetchData() {
       }
   })
       .done((data) => {
-          // console.log(data);
+          console.log(data);
           // console.log(data.data[0].name);
           // console.log(data.data[0].dates.start.localDate);
           // console.log(data.data[0].promoter.name);
@@ -148,12 +148,17 @@ function fetchData() {
             // console.log(id, 'id di tiap iteration<<');
               $(`#content`).append(
                   `
-                  <div class="col mb-4">
+                  <div class="col mb-4 cardhover">
                     <div class="card">
                       <img src="${event.images[0].url}" class="card-img-top" alt="...">
                       <div class="card-body">
                         <h5 class="card-title">${event.name}</h5>
-                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text">
+                        <!-- This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. -->
+                        Venue : ${event._embedded.venues[0].name} <br>
+                        Start : ${event.dates.start.localDate} at ${event.dates.start.localTime} <br>
+                        Timezone : ${event.dates.timezone}
+                        </p>
                         <a  class="btn btn-primary" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="getQR('${event.url}')">
                         Book This
                         </a>
@@ -186,13 +191,18 @@ function search(event) {
             data.data.forEach((event) => {
                 $(`#content`).append(
                   `
-                  <div class="col mb-4">
+                  <div class="col mb-4 cardhover">
                     <div class="card">
                       <img src="${event.images[0].url}" class="card-img-top" alt="...">
                       <div class="card-body">
                         <h5 class="card-title">${event.name}</h5>
-                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <a  class="btn btn-primary" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="processBooking(event)">
+                        <p class="card-text">
+                        <!-- This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. -->
+                        Venue : ${event._embedded.venues[0].name} <br>
+                        Start : ${event.dates.start.localDate} at ${event.dates.start.localTime} <br>
+                        Timezone : ${event.dates.timezone}
+                        </p>
+                        <a  class="btn btn-primary" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="getQR('${{params: event.url, name: event.name, venue: event._embedded.venues[0].name, start: {date: event.dates.start.localDate, time: event.dates.start.localTime, timezone: event.dates.timezone}}}')">
                         Book This
                         </a>
                       </div>
@@ -215,20 +225,34 @@ function getQR(params) {
     imageWidth: 150,
     imageHeight: 150,
     imageAlt: 'Custom image',
-    html: `<a href="" onclick="sendmail(event)">Send To Your Email</a>`,
+    html: `<a href="" onclick="sendmail(event, params)">Send To Your Email</a>`,
     focusConfirm: false,
     showCancelButton: true,
   })
 }
 
-function sendmail(event) {
+function sendmail(event, obj) {
   event.preventDefault()
   console.log(event);
+  event.preventDefault();
+  $.ajax(`${endpoint}/login`, {
+    method: "POST",
+    data: {
+      subject: `Book ${obj.name} now!`,
+      text: ``
+    }
+  })
+  .done(data => {
+    console.log(data)
+  })
+  .fail(err => console.log(err))
+  .always(() => console.log('email sent'));
+
   Swal.fire({
     title: 'Sweet!',
     text: 'Modal with a custom image.',
     imageAlt: 'Custom image',
-    html: `<a href="" onclick="sendmail(event)">Send To Your Email</a>`,
+    html: `<a href="" onclick="sendmail(event, obj)">Send To Your Email</a>`,
     focusConfirm: false,
     showCancelButton: true,
   })

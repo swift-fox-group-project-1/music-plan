@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
   <body>
     <!-- login page -->
@@ -22,7 +23,7 @@
               <p>Start using our services by login with your account.</p>
             </div> -->
           </div>
-          <div class="col form shadow-lg vh-100">
+          <div class="col form shadow-lg vh-100 w3-animate-zoom">
             <h3 class="font">Welcome to Todo App!</h3>
             <form class="font-2" action="#" method="post" id="form">
               <h1 class="h3 mb-3 font-weight-normal font">Please sign in</h1>
@@ -81,7 +82,7 @@
 
     <!-- dashboard -->
     <section id="dashboard" class="vh-100 font-2">
-        <div class="navigation shadow-sm p-3 mb-5 bg-white rounded">
+        <div class="navigation shadow-sm p-3 mb-5 bg-white rounded w3-animate-top">
           <ul class="nav justify-content-end">
             <li class="nav-item">
               <a class="nav-link active" href="" onclick="home(event)">Home</a>
@@ -97,7 +98,7 @@
           </ul>
         </div>
 
-        <div class="container-sm gap">
+        <div class="container-sm gap w3-animate-zoom">
           <div class="row">
             <div class="header col-8">
               <h2 class="font">Welcome, this is your dashboard!</h2>
@@ -112,7 +113,7 @@
           </div>
         </div>
 
-        <div class="container-md">
+        <div class="container-md w3-animate-bottom">
           <div class="todo rounded-lg shadow p-3 mb-5 bg-white rounded overflow-auto vh-100">
             <div  id = "content" class="row row-cols-1 row-cols-md-3 todo"></div>
           </div>

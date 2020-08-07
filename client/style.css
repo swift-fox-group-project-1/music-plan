@@ -120,3 +120,21 @@ h3 {
 .todo {
   padding: 2vw;
 }
+
+.hoverbox {
+  opacity: 0.5;
+  transition: 1s;
+}
+
+.hoverbox:hover {
+  opacity: 1
+}
+
+.cardhover {
+  transition: transform 0.5s;
+}
+
+.cardhover:hover {
+  transform: scale(1.05)
+}
+
