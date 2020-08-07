@@ -215,21 +215,73 @@ function getQR(params) {
     imageWidth: 150,
     imageHeight: 150,
     imageAlt: 'Custom image',
-    html: `<a href="" onclick="sendmail(event)">Send To Your Email</a>`,
+    html: `<a  class="btn btn-primary" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="sendmail('${params}')">
+    Book This
+    </a>`,
     focusConfirm: false,
     showCancelButton: true,
   })
 }
 
-function sendmail(event) {
-  event.preventDefault()
-  console.log(event);
+function sendmail(params) {
+  // event.preventDefault()
+  console.log(params, '<<');
+  let url = params
   Swal.fire({
     title: 'Sweet!',
     text: 'Modal with a custom image.',
     imageAlt: 'Custom image',
-    html: `<a href="" onclick="sendmail(event)">Send To Your Email</a>`,
+    html: '<label>email</label>' +
+          '<input id="swal-input1" class="swal2-input" placeholder="email">',
     focusConfirm: false,
     showCancelButton: true,
+    preConfirm: () => {
+      let data = $('#swal-input1').val()
+      console.log(data);
+          $.ajax({
+                  method: 'get',
+                  url: `${endpoint}/sent`,
+                  headers: {
+                      access_token: localStorage.access_token
+                  },
+                  data: {
+                    data: data,
+                    id: url
+                  }
+              })
+              .done((result) => {
+                console.log(result, '<>');
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Success add new Todo',
+                      text: 'and sent it to your email'
+                  })
+                  auth()
+              })
+              .fail(err => {
+                  console.log(err, 'ini err broo <<');
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Failed add new Todo'
+                  })
+              })
+    }
   })
+}
+
+function Qrcode(params) {
+  $.ajax({
+    method: 'get',
+    url: `${endpoint}/sent`,
+    data: {
+      url: params
+    }
+  })
+    .done(data => {
+      console.log(data, '<< data di qr');
+    })
+    .fail(err => {
+      console.log(err, 'di qr');
+    })
+  console.log(params, '<<<<<<');
 }
