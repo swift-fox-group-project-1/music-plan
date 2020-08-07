@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
   </head>
   <body>
     <!-- login page -->
@@ -24,7 +24,7 @@
             </div> -->
           </div>
           <div class="col form shadow-lg vh-100 w3-animate-zoom">
-            <h3 class="font">Welcome to Todo App!</h3>
+            <h3 class="font">Welcome Music Planner App!</h3>
             <form class="font-2" action="#" method="post" id="form">
               <h1 class="h3 mb-3 font-weight-normal font">Please sign in</h1>
               <label for="inputEmail" class="font">Email:</label>
@@ -37,7 +37,7 @@
                 </label>
               </div>
               <button type="submit" name="button" class="btn btn-lg btn-primary btn-block font rounded-pill shadow p-3 mb-5 rounded" data-toggle="button" aria-pressed="false" onclick="login(event)">Login</button><br>
-              <a href="" id="register" onclick="toRegister(event)">Register here</a>
+              <a href="" class="text-center" id="register" onclick="toRegister(event)">Register here</a>
               <div class="g-signin2" data-width="400" data-height="50" data-longtitle="true" data-theme="dark" data-onsuccess="onSignIn"></div>
             </form>
           </div>
@@ -88,6 +88,9 @@
               <a class="nav-link active" href="" onclick="home(event)">Home</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link active" href="" onclick="seeWishlist(event)">See wishlist</a>
+            </li>
+            <li class="nav-item">
               <h5 id="user" class="nav-link active">Welcome User</h5>
             </li>
             <li class="nav-item">
@@ -98,11 +101,13 @@
           </ul>
         </div>
 
+
+
         <div class="container-sm gap w3-animate-zoom">
           <div class="row">
             <div class="header col-8">
-              <h2 class="font">Welcome, this is your dashboard!</h2>
-              <p>This is where you can see, create, or update your to do list</p>
+              <h2 class="font" id="searching-name">Welcome, this is where you can see the concert list!</h2>
+              <p id="description-home">Use the search button to see your concert!</p>
             </div>
             <div class="header col-4">
               <form class="form-inline" onsubmit="search(event)">
@@ -113,9 +118,108 @@
           </div>
         </div>
 
-        <div class="container-md w3-animate-bottom">
+        <div id="dashboard-loading">
+          <div class="d-flex justify-content-center" id="dashboard-loading">
+            <div class="spinner-grow text-primary" style="width: 5rem; height: 5rem;" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-md w3-animate-bottom" id="dashboard-card">
           <div class="todo rounded-lg shadow p-3 mb-5 bg-white rounded overflow-auto vh-100">
             <div  id = "content" class="row row-cols-1 row-cols-md-3 todo"></div>
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div id="modal-description" class="modal-body">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Understood</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+    </section>
+
+    <!-- see wishlist -->
+    <section id="wishlist-page" class="vh-100 font-2">
+        <div class="navigation shadow-sm p-3 mb-5 bg-white rounded w3-animate-top">
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link active" href="" onclick="home(event)">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="" onclick="seeWishlist(event)">See wishlist</a>
+            </li>
+            <li class="nav-item">
+              <h5 id="user" class="nav-link active">Welcome User</h5>
+            </li>
+            <li class="nav-item">
+              <a onclick="logout(event)">
+                <button class="nav-link btn btn-primary shadow" type="button" name="button">Log out</button>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+
+
+        <div class="container-sm gap w3-animate-zoom">
+          <div class="row">
+            <div class="header col-8">
+              <h2 class="font" id="searching-name">Welcome, this is where you can see the concert list!</h2>
+              <p id="description-home">Use the search button to see your concert!</p>
+            </div>
+            <div class="header col-4">
+              <form class="form-inline" onsubmit="search(event)">
+                <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Enter artist name...">
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div id="dashboard-loading">
+          <div class="d-flex justify-content-center" id="dashboard-loading">
+            <div class="spinner-grow text-primary" style="width: 5rem; height: 5rem;" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="container-md w3-animate-bottom" id="dashboard-card">
+          <div class="todo rounded-lg shadow p-3 mb-5 bg-white rounded overflow-auto vh-100">
+            <div  id = "wishlist" class="row row-cols-1 row-cols-md-3 todo"></div>
+
+
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div id="modal-description" class="modal-body">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Understood</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

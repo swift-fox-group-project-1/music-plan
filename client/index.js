@@ -42,11 +42,17 @@ function homepage() {
   $('.registerpage').hide()
   $("#user").text(`Welcome ${localStorage.username}`);
   $('#dashboard').show();
+  $("#dashboard-card").hide();
+  $("#dashboard-loading").show();
   fetchData()
 }
 
 function home(event) {
-  event.preventDefault()
+  event.preventDefault();
+  $("#dashboard").show();
+  $("#wishlist-page").hide();
+  $("#dashboard-card").hide();
+  $("#dashboard-loading").show();
   fetchData()
 }
 
@@ -61,6 +67,7 @@ function login(event) {
   })
   .done(data => {
     localStorage.access_token = data.access_token;
+    localStorage.id = data.id;
     localStorage.email = data.email;
     localStorage.username = data.username;
 
@@ -96,6 +103,7 @@ function registerPost(event) {
   .done(user => {
     console.log(user, 'done after ajax register');
     localStorage.access_token = user.access_token;
+    localStorage.id = data.id;
     localStorage.email = data.email;
     localStorage.username = data.username;
 
@@ -117,7 +125,10 @@ function onSignIn(googleUser) {
   })
   .done(data => {
     // console.log(data);
+    localStorage.email = data.email;
+    localStorage.username = data.username;
     localStorage.access_token = data.access_token;
+    auth();
     // console.log(localStorage.access_token);
   })
   .fail(err => {
@@ -127,6 +138,7 @@ function onSignIn(googleUser) {
 }
 
 function fetchData() {
+  $("#searching-name").html(`Welcome, this is where you can see the concert list!`);
   $.ajax({
       method: `get`,
       url: `http://localhost:3000/get-eventS`,
@@ -139,6 +151,8 @@ function fetchData() {
           // console.log(data.data[0].name);
           // console.log(data.data[0].dates.start.localDate);
           // console.log(data.data[0].promoter.name);
+          $("#dashboard-card").show();
+          $("#dashboard-loading").hide();
           $(`#content`).empty();
           // console.log(data);
 
@@ -146,24 +160,38 @@ function fetchData() {
             // console.log(event);
             // const id = event.id
             // console.log(id, 'id di tiap iteration<<');
+            let images;
+            for (let i of event.images)
+            {
+              if (i.ratio == "16_9")
+              {
+                images = i.url;
+                break;
+              }
+            }
+
+            let priceRange;
+            if (event.priceRanges)
+              priceRange = `${event.priceRanges[1].max} - ${event.priceRanges[1].min} ${event.priceRanges[1].currency} (Standard including fees)`;
+            else
+              priceRange = `Data cannot be retrieved.`
+
               $(`#content`).append(
                   `
-                  <div class="col mb-4 cardhover">
-                    <div class="card">
-                      <img src="${event.images[0].url}" class="card-img-top" alt="...">
+                  <div class="col mb-4 cardhover" id=${event.id}>
+                    <div class="card h-100">
+                      <img id="${event.id}-image" src="${images}" class="card-img-top" style="max-width: 100%; max-height: 100%;" alt="...">
                       <div class="card-body">
-                        <h5 class="card-title">${event.name}</h5>
+                        <h5 id="${event.id}-name" class="card-title font-weight-bold">${event.name}</h5>
                         <p class="card-text">
-                        <!-- This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. -->
-                        Venue : ${event._embedded.venues[0].name} <br>
-                        Start : ${event.dates.start.localDate} at ${event.dates.start.localTime} <br>
-                        Timezone : ${event.dates.timezone}
+                        <strong>Venue</strong> : <span id="${event.id}-venue">${event._embedded.venues[0].name}</span> <br>
+                        <strong>Start</strong> : <span id="${event.id}-date">${event.dates.start.localDate} at ${event.dates.start.localTime}</span> <br>
+                        <strong>Country/Region</strong> : <span id="${event.id}-country">${event.dates.timezone}</span> <br>
+                        <strong>Price</strong> : <span id="${event.id}-price">${priceRange}</span>
                         </p>
-                        <a  class="btn btn-primary" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="getQR('${event.url}')">
-                        Book This
-                        </a>
-                      </div>
+                        <a onclick="addToWishList(event, ${event.id})" href="" class="font-2" data-toggle="modal" data-target="#staticBackdrop">Add to your wishlist</a>
                     </div>
+                    <a  class="btn btn-primary" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="getQR('${event.url}')">Book This</a>
                   </div>
                   `
               );
@@ -176,8 +204,11 @@ function fetchData() {
 
 function search(event) {
   event.preventDefault()
+  $("#dashboard-card").hide();
+  $("#dashboard-loading").show();
   console.log('masuk');
   const keyword = $('#inlineFormInputName2').val()
+  $("#searching-name").html(`Here is the list of <strong>${keyword}</strong> concert!`);
   $.ajax({
     method: 'get',
     url: `${endpoint}/get-events/search/${keyword}`,
@@ -187,28 +218,43 @@ function search(event) {
   })
     .done(data => {
       // console.log(data, '<< data');
+      $("#dashboard-card").show();
+      $("#dashboard-loading").hide();
       $(`#content`).empty();
             data.data.forEach((event) => {
-                $(`#content`).append(
-                  `
-                  <div class="col mb-4 cardhover">
-                    <div class="card">
-                      <img src="${event.images[0].url}" class="card-img-top" alt="...">
-                      <div class="card-body">
-                        <h5 class="card-title">${event.name}</h5>
-                        <p class="card-text">
-                        <!-- This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. -->
-                        Venue : ${event._embedded.venues[0].name} <br>
-                        Start : ${event.dates.start.localDate} at ${event.dates.start.localTime} <br>
-                        Timezone : ${event.dates.timezone}
-                        </p>
-                        <a  class="btn btn-primary" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="getQR('${{params: event.url, name: event.name, venue: event._embedded.venues[0].name, start: {date: event.dates.start.localDate, time: event.dates.start.localTime, timezone: event.dates.timezone}}}')">
-                        Book This
-                        </a>
-                      </div>
-                    </div>
+              let images;
+              for (let i of event.images)
+              {
+                if (i.ratio == "16_9")
+                {
+                  images = i.url;
+                  break;
+                }
+              }
+
+              let priceRange;
+              if (event.priceRanges)
+                priceRange = `${event.priceRanges[1].max} - ${event.priceRanges[1].min} ${event.priceRanges[1].currency} (Standard including fees)`;
+              else
+                priceRange = `Data cannot be retrieved.`
+              $(`#content`).append(
+                `
+                <div class="col mb-4 cardhover" id=${event.id}>
+                  <div class="card h-100">
+                    <img id="${event.id}-image" src="${images}" class="card-img-top" style="max-width: 100%; max-height: 100%;" alt="...">
+                    <div class="card-body">
+                      <h5 id="${event.id}-name" class="card-title font-weight-bold">${event.name}</h5>
+                      <p class="card-text">
+                      <strong>Venue</strong> : <span id="${event.id}-venue">${event._embedded.venues[0].name}</span> <br>
+                      <strong>Start</strong> : <span id="${event.id}-date">${event.dates.start.localDate} at ${event.dates.start.localTime}</span> <br>
+                      <strong>Country/Region</strong> : <span id="${event.id}-country">${event.dates.timezone}</span> <br>
+                      <strong>Price</strong> : <span id="${event.id}-price">${priceRange}</span>
+                      </p>
+                      <a onclick="addToWishList(event, ${event.id})" href="" class="font-2" data-toggle="modal" data-target="#staticBackdrop">Add to your wishlist</a>
                   </div>
-                  `
+                  <a  class="btn btn-primary" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="getQR('${event.url}')">Book This</a>
+                </div>
+                `
               );
             });
     })
@@ -225,7 +271,7 @@ function getQR(params) {
     imageWidth: 150,
     imageHeight: 150,
     imageAlt: 'Custom image',
-    html: `<a  class="btn btn-primary" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="sendmail('${params}')">
+    html: `<a  class="btn btn-primary font-2" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="sendmail('${params}')">
     Book This
     </a>`,
     focusConfirm: false,
@@ -241,8 +287,8 @@ function sendmail(params) {
     title: 'Sweet!',
     text: 'Modal with a custom image.',
     imageAlt: 'Custom image',
-    html: '<label>email</label>' +
-          '<input id="swal-input1" class="swal2-input" placeholder="email">',
+    html: '<label class="font-2">Email</label>' +
+          '<input id="swal-input1" class="swal2-input font-2" placeholder="Enter your email...">',
     focusConfirm: false,
     showCancelButton: true,
     preConfirm: () => {
@@ -263,7 +309,7 @@ function sendmail(params) {
                 console.log(result, '<>');
                   Swal.fire({
                       icon: 'success',
-                      title: 'Success add new Todo',
+                      title: 'Success!',
                       text: 'and sent it to your email'
                   })
                   auth()
@@ -272,7 +318,7 @@ function sendmail(params) {
                   console.log(err, 'ini err broo <<');
                   Swal.fire({
                       icon: 'error',
-                      title: 'Failed add new Todo'
+                      title: 'Failed'
                   })
               })
     }
@@ -294,4 +340,107 @@ function Qrcode(params) {
       console.log(err, 'di qr');
     })
   console.log(params, '<<<<<<');
+}
+
+function addToWishList(event) {
+  event.preventDefault();
+  const concertId = arguments[1].id;
+  console.log('masuk', arguments);
+  console.log(concertId);
+
+  const concertName = $(`#${concertId}-name`).text();
+  const concertVenue = $(`#${concertId}-venue`).text();
+  const concertDate = $(`#${concertId}-date`).text();
+  const concertCountry = $(`#${concertId}-country`).text();
+  const concertPrice = $(`#${concertId}-price`).text();
+
+  $(`#modal-title`).html(`<strong>${concertName}</strong> was added to your wishlist!`);
+  $('#modal-description').html(`<strong>Venue</strong> : ${concertVenue} <br>
+  <strong>Start</strong> : ${concertDate} <br>
+  <strong>Country/Region</strong> : ${concertCountry} <br>
+  <strong>Price</strong> : ${concertPrice}`);
+
+  $.ajax(`${endpoint}/wishlist`, {
+    method: 'POST',
+    data: {
+      name: concertName,
+      venue: concertVenue,
+      start: concertDate,
+      country: concertCountry,
+      price: concertPrice
+    },
+    headers: {
+      access_token: localStorage.access_token
+    }
+  })
+  .done(data => {
+    console.log(data);
+
+
+  })
+  .fail(err => console.log(err))
+  .always(console.log('post wishlist'));
+}
+
+function wishlistPage() {
+  $("#dashboard").hide();
+  $("#wishlist-page").show();
+}
+
+function seeWishlist(event) {
+  event.preventDefault();
+  wishlistPage();
+
+  $.ajax(`${endpoint}/wishlist`, {
+    method: "GET",
+    headers: {
+      access_token: localStorage.access_token
+    }
+  })
+  .done(data => {
+    console.log(data);
+
+    data.forEach((x) => {
+      $(`#wishlist`).append(
+        `
+        <div class="col mb-4 cardhover" id=${x.id}>
+          <div class="card h-100">
+            <img id="${x.id}-image" src="" class="card-img-top" style="max-width: 100%; max-height: 100%;" alt="...">
+            <div class="card-body">
+              <h5 id="${x.id}-name" class="card-title font-weight-bold">${x.name}</h5>
+              <p class="card-text">
+              <strong>Venue</strong> : <span id="${x.id}-venue">${x.venue}</span> <br>
+              <strong>Start</strong> : <span id="${x.id}-date">${x.date}</span> <br>
+              <strong>Country/Region</strong> : <span id="${x.id}-country">${x.country}</span> <br>
+              <strong>Price</strong> : <span id="${x.id}-price">${x.price}</span>
+              </p>
+          </div>
+          <a  class="btn btn-danger" data-toggle="modal" data-target="#BookingTicket" id="booking-button" onclick="deleteWishlist('${x.name}')">Delete</a>
+        </div>
+        `
+      );
+    });
+  })
+  .fail(err => console.log(err))
+  .always(console.log('get wishlist'));
+}
+
+
+function deleteWishlist(event) {
+  // event.preventDefault();
+
+  console.log('test in delete', arguments);
+  $.ajax(`${endpoint}/wishlist/${event}`, {
+    method: "DELETE",
+    headers: {
+      access_token: localStorage.access_token
+    }
+  })
+  .done(data => {
+    auth();
+    console.log(data);
+
+  })
+  .fail(err => console.log(err))
+  .always(() => console.log('delete wishlist'));
 }
