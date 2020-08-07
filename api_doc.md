@@ -60,6 +60,12 @@ _Response (500)_
     "username": "ismatullah"
 }
 ```
+--response(404)
+```
+    {
+        message: "<'incorrect email or password'>"
+    }
+```
 ## POST /googleLogin
 --response(200)
 ```json
@@ -67,12 +73,7 @@ _Response (500)_
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlzbWF0dWxsYWgiLCJlbWFpbCI6Im90b3JpZ2FtaUBnbWFpbC5jb20iLCJpYXQiOjE1OTY3NzE1MTh9.UqT9RlAKZolYC8ypP98ZvsMd88y219mZEQxZJgzPSbQ"
 }
 ```
---response(404)
-```
-    {
-        message: "<'incorrect email or password'>"
-    }
-```
+
 ## GET /get-events--request headers
 access_token--response(200)
 ```json
